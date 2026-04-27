@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmbase</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- PapaParse biblioteka za parsiranje CSV-a -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+
+    <header id="Naslov">
+        <h1>Dobrodosli na moju web stranicu</h1>
+    </header>
+
+    <nav class="navbar">
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">☰</label>
+        <div class="nav-links">
+            <a href="./index.html">Pocetna</a>
+            <a href="./grafikon.html">Grafikon</a>
+            <a href="./slike.html">Galerija</a>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ==================== ZADATAK 1: Staticka tablica iz LV1 ==================== -->
+        <h1 id="tablicatekst">TABLICA FILMOVA</h1>
+        <div class="container">
+            <table id="tablica">
+                <tr>
+                    <th>Title</th>
+                    <th>Director</th>
+                    <th>Country</th>
+                    <th>Year</th>
+                    <th>Type</th>
+                </tr>
+                <tr><td>Dick Johson is dead</td><td>Kirsten Johnson</td><td>USA</td><td>2021</td><td>Documentary</td></tr>
+                <tr><td>Ganglands</td><td>Julien Leclercq</td><td>Unknown</td><td>2021</td><td>Crime</td></tr>
+                <tr><td>My Little Pony: A New Generation</td><td>Robert Cullen</td><td>Unknown</td><td>2021</td><td>Children movie</td></tr>
+                <tr><td>Sankofa</td><td>Haile Gerima</td><td>USA</td><td>2021</td><td>Drama</td></tr>
+                <tr><td>The Great British Baking Show</td><td>Andy Devonshire</td><td>United Kingdom</td><td>2021</td><td>Reality</td></tr>
+                <tr><td>The Starling</td><td>Theodore Melfi</td><td>USA</td><td>2021</td><td>Comedy</td></tr>
+                <tr><td>Confessions of an Invisible Girl</td><td>Bruno Garotti</td><td>Italy</td><td>2021</td><td>Children movie</td></tr>
+                <tr><td>Jeans</td><td>S. Shankar</td><td>India</td><td>2021</td><td>Comedy</td></tr>
+                <tr><td>Grown Ups</td><td>Dennis Dugan</td><td>USA</td><td>2021</td><td>Comedy</td></tr>
+            </table>
+            <aside id="sidebar">
+                <img src="https://www.wondermind.com/wp-content/uploads/2024/09/20-Feel-Good-Movies-People-Swear-By-For-Your-Next-Bad-Day.jpg" alt="Filmovi">
+            </aside>
+        </div>
+
+        <section>
+            <h2>Ovo je glavna sekcija</h2>
+            <p>HTML5 omogucava semanticku strukturu koja poboljsava pristupacnost i SEO.</p>
+        </section>
+        <article>
+            <h2>Najnovije vijesti</h2>
+            <p>Ovdje se nalazi clanak s vaznim informacijama.</p>
+        </article>
+
+        <!-- ==================== ZADATAK 1: Dinamicka tablica iz CSV-a ==================== -->
+        <h1 id="tablicatekst">POPIS FILMOVA (iz CSV datoteke)</h1>
+
+        <div class="container">
+            <table id="filmovi-tablica">
+                <thead>
+                    <tr>
+                        <th>Naslov</th>
+                        <th>Žanr</th>
+                        <th>Godina</th>
+                        <th>Trajanje (min)</th>
+                        <th>Ocjena</th>
+                        <th>Redatelj</th>
+                        <th>Zemlja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- JavaScript ce ovdje dinamicki ubaciti retke -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ==================== ZADATAK 2: Filtriranje ==================== -->
+        <h1 id="tablicatekst">FILTRIRANJE FILMOVA</h1>
+
+        <div id="filteri">
+            <!-- Filter 1: Padajuci izbornik za zanr -->
+            <label for="filter-zanr">Žanr:</label>
+            <select id="filter-zanr">
+                <option value="">-- Svi žanrovi --</option>
+                <option value="Drama">Drama</option>
+                <option value="Crime">Crime</option>
+                <option value="Action">Action</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Biography">Biography</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Horror">Horror</option>
+                <option value="Animation">Animation</option>
+                <option value="Western">Western</option>
+                <option value="Thriller">Thriller</option>
+                <option value="War">War</option>
+            </select>
+
+            <!-- Filter 2: Tekstualno polje za godinu (od) -->
+            <label for="filter-godina">Godina od:</label>
+            <input type="number" id="filter-godina" placeholder="npr. 1990" min="1900" max="2025">
+
+            <!-- Filter 3: Slider za minimalnu ocjenu -->
+            <label for="filter-ocjena">Min. ocjena: <span id="ocjena-vrijednost">7.0</span></label>
+            <input type="range" id="filter-ocjena" min="0" max="10" step="0.1" value="7">
+
+            <button id="primijeni-filtere">Filtriraj</button>
+            <button id="reset-filtere">Poništi filtere</button>
+        </div>
+
+        <!-- Tablica s filtriranim rezultatima (Zadatak 2 + 3) -->
+        <div class="container" id="filtrirani-container" style="display:none;">
+            <table id="filtriranje-tablica">
+                <thead>
+                    <tr>
+                        <th>Naslov</th>
+                        <th>Žanr</th>
+                        <th>Godina</th>
+                        <th>Trajanje (min)</th>
+                        <th>Ocjena</th>
+                        <th>Zemlja</th>
+                        <th>Dodaj</th>
+                    </tr>
+                </thead>
+                <tbody id="filtrirani-tbody">
+                    <!-- JavaScript ubacuje filtrirane filmove -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ==================== ZADATAK 3: Kosariczica ==================== -->
+        <aside id="kosarica">
+            <h2>🎬 Moja košarica <span id="broj-u-kosarica">(0)</span></h2>
+            <ul id="lista-kosarice">
+                <!-- Dinamicki popunjeno -->
+            </ul>
+            <p id="kosarica-prazna">Košarica je prazna.</p>
+            <button id="potvrdi-kosaricu">✅ Potvrdi posudbu</button>
+        </aside>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025. Web Programiranje. Sva prava pridrzana.</p>
+    </footer>
+
+    <!-- Skripta se ucitava na kraju body-a -->
+    <script src="js/script.js"></script>
+
+</body>
+</html>
